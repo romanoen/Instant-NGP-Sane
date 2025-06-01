@@ -21,7 +21,7 @@ if __name__ == '__main__':
     # -----------------------------
     # Hyperparameters
     # -----------------------------
-    token_dir    = "../prepared_objects_first_5_levels"
+    token_dir    = "../prepared_objects_first_4_levels"
     model_ids    = ["asteroid6__base_000_000_000__checkpoints__final"] # thats what you train on
     window_size  = 256
     batch_size   = 8
@@ -132,5 +132,3 @@ if __name__ == '__main__':
         # ---------------------------------------------------
         checkpoint_name = os.path.join(checkpoint_dir, f"checkpoint_epoch{epoch:02d}.pt")
         torch.save(model.state_dict(), checkpoint_name)
-        # Optionally, log that the checkpoint has been saved
-        # e.g., print(f"Saved checkpoint: {checkpoint_name}")

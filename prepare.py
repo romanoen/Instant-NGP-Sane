@@ -190,13 +190,13 @@ def run_crawler(model_root_dir, output_dir, levels_to_extract=None):
     print(f"Processing complete. Results saved to: {output_dir}")
 
 # =============================
-# Example Usage
+# Usage
 # =============================
 
-levels_to_extract = [1,2,3]
+levels_to_extract = [0,1,2,3]
 
 run_crawler(
     model_root_dir='shared_data',            # Directory containing .pth model files
     output_dir=f'prepared_objects_first_{max(levels_to_extract)+1}_levels/',  # Where processed data will be stored
-    levels_to_extract=levels_to_extract              # Only extract the first three levels (0,1,2)
+    levels_to_extract=levels_to_extract 
 )
