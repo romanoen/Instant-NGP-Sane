@@ -1,6 +1,6 @@
 import os
 
-def get_filenames(root_folder = "../../prepared_objects_first_4_levels"):
+def get_filenames(root_folder):
     """
     Durchläuft bis zu 4 Ebenen von Unterordnern in root_folder,
     schneidet jeden Dateinamen vor dem letzten Unterstrich ab,
@@ -29,4 +29,5 @@ def get_filenames(root_folder = "../../prepared_objects_first_4_levels"):
                     cut_name = name_no_ext
                 unique_names.add(cut_name)
 
-    return sorted(unique_names)
+    #return sorted(unique_names)[6:-48]
+    return sorted(unique_names)[:-6]

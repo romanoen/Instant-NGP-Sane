@@ -5,19 +5,18 @@ import torch.nn.functional as F
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 
+torch.backends.cudnn.benchmark = True
+
 from dataloader import SimpleTokenDataset       # Passen: Dateiname, falls anders
 from transformer import SANETokenAutoencoderWithRotation  # Passen
+from get_datanames import get_filenames
 
 # ----------------------------------------
 # 1) Hyperparameter & Pfade
 # ----------------------------------------
 token_dir    = "../prepared_objects_first_4_levels"
-model_ids    = ["asteroid6__base_000_000_000__checkpoints__final",
-                "asteroid6__compound_090_000_090__checkpoints__final",
-                "asteroid6__x_180_000_000__checkpoints__final",
-                "asteroid6__y_000_180_000__checkpoints__final",
-                "asteroid6__z_000_000_120__checkpoints__final",
-                "asteroid6__z_000_000_240__checkpoints__final"]  # 6 Rotationen
+model_ids    = get_filenames(root_folder = token_dir)  # 6 Rotationen
+print(len(model_ids))
 window_size  = 256
 batch_size   = 8
 lr           = 1e-4
@@ -34,14 +33,15 @@ dataset = SimpleTokenDataset(
     token_dir=token_dir,
     model_ids=model_ids,
     window_size=window_size,
-    augment=False  # Bei Bedarf auf True setzen (Rauschen)
+    augment=True  # Bei Bedarf auf True setzen (Rauschen)
 )
 dataloader = DataLoader(
     dataset,
     batch_size=batch_size,
     shuffle=True,
     num_workers=4,
-    pin_memory=True
+    pin_memory=True,
+    
 )
 
 print(f"Dataset size (windows): {len(dataset)}, num_batches: {len(dataloader)}")
@@ -104,7 +104,7 @@ for epoch in range(1, epochs + 1):
     print(f"Epoch {epoch}/{epochs} completed in {elapsed:.1f}s – Avg Loss: {avg_loss:.6f}")
 
 os.makedirs(checkpoint_dir, exist_ok=True)
-save_path = os.path.join(checkpoint_dir, "sane_asteroid6_with_rotation_final.pt")
+save_path = os.path.join(checkpoint_dir, "9ObjectsModel.pt")
 
 torch.save(model.state_dict(), save_path)
 print(f"Modell gespeichert in: {save_path}")
